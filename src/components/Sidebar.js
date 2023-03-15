@@ -5,7 +5,7 @@ export default function Sidebar({notes, currentNote, setCurrentNoteId, newNote, 
             <div
                 
                 className={`title ${
-                    note.id === currentNote.id ? "selected-note" : ""
+                    note.id === currentNote.id && "selected-note" 
                 }`}
                 onClick={() => setCurrentNoteId(note.id)}
             >

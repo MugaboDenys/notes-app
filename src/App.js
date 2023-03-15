@@ -3,15 +3,18 @@ import Editor from "./components/Editor"
 import { data } from "./data"
 import Split from "react-split"
 import {nanoid} from "nanoid"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 export default function App() {
-    const [notes, setNotes] = useState([])
+    const [notes, setNotes] = useState(() => JSON.parse(localStorage.getItem("notes") ) || [])
     const [currentNoteId, setCurrentNoteId] = useState(
         (notes[0] && notes[0].id) || ""
     )
-    
+    useEffect(()=>{
+      localStorage.setItem("notes", JSON.stringify(notes))
+    }, [notes])
+
     function createNewNote() {
         const newNote = {
             id: nanoid(),
@@ -22,11 +25,18 @@ export default function App() {
     }
     
     function updateNote(text) {
-        setNotes(oldNotes => oldNotes.map(oldNote => {
-            return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text }
-                : oldNote
-        }))
+        setNotes(oldNotes =>{
+            const newArr = []
+            for(let i = 0; i < oldNotes.length; i++){
+                if(oldNotes[i].id === currentNoteId){
+                    newArr.unshift({ ...oldNotes[i], body: text })
+                }
+                else{
+                    newArr.push(oldNotes[i])
+                }
+            }
+            return newArr;
+        })
     }
     
     function findCurrentNote() {

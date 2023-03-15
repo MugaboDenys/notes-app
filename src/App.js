@@ -15,6 +15,12 @@ export default function App() {
       localStorage.setItem("notes", JSON.stringify(notes))
     }, [notes])
 
+    function deleteNote(event, noteId) {
+        event.stopPropagation()
+        setNotes(oldNotes => oldNotes.filter(note => note.id !== noteId))
+        // Your code here
+    }
+    
     function createNewNote() {
         const newNote = {
             id: nanoid(),
@@ -60,6 +66,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 

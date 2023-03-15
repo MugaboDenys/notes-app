@@ -1,5 +1,5 @@
 
-export default function Sidebar({notes, currentNote, setCurrentNoteId, newNote}) {
+export default function Sidebar({notes, currentNote, setCurrentNoteId, newNote, deleteNote}) {
     const noteElements = notes.map((note, index) => (
         <div key={note.id}>
             <div
@@ -10,6 +10,12 @@ export default function Sidebar({notes, currentNote, setCurrentNoteId, newNote})
                 onClick={() => setCurrentNoteId(note.id)}
             >
                 <h4 className="text-snippet">{note.body.split("\n")[0]}</h4>
+                <button 
+                    className="delete-btn"
+                    onClick={(event)=>deleteNote(event, note.id)}
+                >
+                    <i className="gg-trash trash-icon"></i>
+                </button>
             </div>
         </div>
     ))
